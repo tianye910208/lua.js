@@ -8,16 +8,12 @@
                     if (arguments.length > 1) 
                         text = Array.prototype.slice.call(arguments).join(' ');
                     console.log(text);
-
-                    if(text != "emsc")
-                        document.getElementById("show").innerHTML += "<br>\n" + text;
+                    document.getElementById("show").innerHTML += "<br>\n" + text;
                 },
                 printErr: function(text) {
                     if (arguments.length > 1) 
                         text = Array.prototype.slice.call(arguments).join(' ');
-
                     console.log("[E]" + text);
-                    
                 },
                 onRuntimeInitialized: function() {
                     console.log("onRuntimeInitialized");
