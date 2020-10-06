@@ -1,22 +1,20 @@
-all: wasm
 
+all: wasm asm.js
 
-wasm: lua.c liblua_wasm1
+wasm: lua.c liblua
 	emcc -Ilua-5.3.6/src lua-5.3.6/src/liblua.a lua.c -s WASM=1 -O2 -o lua.js -s EXTRA_EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' -s EXPORTED_FUNCTIONS='["_exec"]'
 
-liblua_wasm1: clean
-	cd lua-5.3.6/src && make generic CC='emcc -s WASM=1'
 
-
-asm.js: lua.c liblua_wasm0
+asm.js: lua.c liblua
 	emcc -Ilua-5.3.6/src lua-5.3.6/src/liblua.a lua.c -s WASM=0 -O2 -o lua.asm.js -s EXTRA_EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' -s EXPORTED_FUNCTIONS='["_exec"]'
 
-liblua_wasm0: clean
-	cd lua-5.3.6/src && make generic CC='emcc -s WASM=0'
-
-
+liblua:
+	cd lua-5.3.6/src && make a CC='emcc' AR='emar rcu'
 
 clean:
+	rm *.js
+	rm *.wasm
+	rm *.js.mem
 	cd lua-5.3.6/src && make clean
 
 

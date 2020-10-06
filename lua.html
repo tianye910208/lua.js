@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html>
-    <meta charset="utf-8">
     <head>
+        <meta charset="utf-8" />
         <script type='text/javascript'>
             var Module = {
                 postRun: [ update ],
@@ -34,11 +35,23 @@
                     Module._free(ptr);
 
                 }, 1000);
-            }
+            };
+
+            function onload() {
+                var source = "lua.asm.js";
+                if ("object" == typeof WebAssembly && 
+                    "function" == typeof WebAssembly.compile &&
+                    "function" == typeof WebAssembly.validate) {
+                    source = "lua.js";
+                } 
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = source;
+                document.body.appendChild(script);
+            };
         </script>
-        <script type='text/javascript' src='lua.js'></script>
     </head>
-    <body>
+    <body onload="onload();">
         <div>
             <textarea id="edit" style="width: 800px; height: 480px;" onkeyup="update();">print("Hello Lua")</textarea>
             <div id="show" style="width: 800px;"></div>
